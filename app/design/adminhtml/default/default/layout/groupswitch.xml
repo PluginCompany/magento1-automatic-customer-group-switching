@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2014-2026 Plugin Company
+ *
+ * This file is part of Automatic Customer Group Switching, released under the MIT License.
+ * See the LICENSE file in the project root.
+ */
+-->
+<layout version="0.1.0">
+    <adminhtml_adminhtml_groupswitch_index>
+        <reference name="content">
+            <block type="groupswitch/adminhtml_groupswitch" name="groupswitch"/>
+        </reference>
+    </adminhtml_adminhtml_groupswitch_index>
+    <adminhtml_adminhtml_groupswitch_edit>
+        <reference name="head">
+            <action method="setCanLoadExtJs">
+                <flag>1</flag>
+            </action>
+            <action method="setCanLoadTinyMce">
+                <flag>1</flag>
+            </action>
+            <action method="addJs">
+                <script>mage/adminhtml/variables.js</script>
+            </action>
+            <action method="addJs">
+                <script>mage/adminhtml/wysiwyg/widget.js</script>
+            </action>
+            <action method="addItem">
+                <type>js_css</type>
+                <name>prototype/windows/themes/default.css</name>
+            </action>
+        </reference>
+    </adminhtml_adminhtml_groupswitch_edit>
+    <adminhtml_adminhtml_groupswitch_bulkprocessrules>
+        <reference name="head">
+            <action method="addJs">
+                <script>plugincompany/jquerynoconflict.js</script>
+            </action>
+        </reference>
+        <reference name="content">
+            <block
+                    type="groupswitch/adminhtml_groupswitch_bulkprocess_content"
+                    template="plugincompany/groupswitch/bulkprocess/content.phtml"
+                    name="bulk_groupswitch"
+            />
+        </reference>
+    </adminhtml_adminhtml_groupswitch_bulkprocessrules>
+    <adminhtml_customer_edit>
+        <reference name="js">
+            <block type="adminhtml/template" template="plugincompany/groupswitch/customer/edit/disable_last_group_switch.phtml" name="customer.edit.disable.last.group.switch" as="customer_disable_last_group_switch"></block>
+        </reference>
+    </adminhtml_customer_edit>
+</layout>

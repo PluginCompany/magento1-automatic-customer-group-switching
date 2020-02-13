@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright (c) 2014-2026 Plugin Company
+ *
+ * This file is part of Automatic Customer Group Switching, released under the MIT License.
+ * See the LICENSE file in the project root.
+ */
+-->
+<config>
+  <modules>
+    <Plugincompany_Groupswitch>
+      <active>true</active>
+      <codePool>local</codePool>
+    </Plugincompany_Groupswitch>
+  </modules>
+</config>

@@ -1,0 +1,6 @@
+app/code/local/Plugincompany/Groupswitch app/code/local/Plugincompany/Groupswitch
+app/design/adminhtml/default/default/layout/groupswitch.xml app/design/adminhtml/default/default/layout/groupswitch.xml
+app/design/adminhtml/default/default/template/plugincompany/groupswitch app/design/adminhtml/default/default/template/plugincompany/groupswitch
+app/etc/modules/Plugincompany_Groupswitch.xml app/etc/modules/Plugincompany_Groupswitch.xml
+app/locale/en_US/Plugincompany_Groupswitch.csv app/locale/en_US/Plugincompany_Groupswitch.csv
+js/plugincompany/jquerynoconflict.js js/plugincompany/jquerynoconflict.js

@@ -1,0 +1,15 @@
+{
+    "name": "plugincompany/magento1-automatic-customer-group-switching",
+    "description": "Automatic Customer Group Switching for Magento 1 / OpenMage",
+    "type": "magento-module",
+    "license": "MIT",
+    "homepage": "https://plugin.company/magento1-extensions/automatic-customer-group-switching.html",
+    "support": {
+        "issues": "https://github.com/PluginCompany/magento1-automatic-customer-group-switching/issues",
+        "source": "https://github.com/PluginCompany/magento1-automatic-customer-group-switching"
+    },
+    "version": "1.12.1",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}

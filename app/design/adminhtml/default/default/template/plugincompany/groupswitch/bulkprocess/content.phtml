@@ -1,0 +1,125 @@
+<?php $totalCustomers = $this->getApplicableCustomerCount(); ?>
+<h2><?php echo $this->__('Executing Customer Group Switching Rules');?></h2>
+<button onclick="window.history.back();" class="scalable back"><span><span><?php echo $this->__('Go Back'); ?></span></span></button>
+<div class="grid">
+    <div style="padding:10px;width:50%;float:left;box-sizing:border-box">
+        <h3>Included Rules:</h3>
+        <table class="data" >
+            <thead>
+            <tr class="headings">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Priority</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach($this->getRules() as $rule){ ?>
+                <tr>
+                    <td><?php echo $rule->getId(); ?></td>
+                    <td><?php echo $rule->getName(); ?></td>
+                    <td><?php echo $rule->getSortOrder(); ?></td>
+                </tr>
+            <?php } ?>
+            </tbody>
+        </table>
+    </div>
+    <div style="padding:10px;width:50%;float:left;box-sizing:border-box">
+        <h3>Progress:</h3>
+        <table class="data" >
+            <thead>
+            <tr class="headings">
+                <th>Customers Processed</th>
+                <th>Customers Eligible for Group Change</th>
+                <th>Percent Complete</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td id="customers_processed">0</td>
+                    <td><?php echo $totalCustomers; ?></td>
+                    <td><span id="percent"><?php if(!$totalCustomers){ ?>10<?php } ?>0.00</span>%</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <?php if($totalCustomers) { ?>
+        <div style="padding:10px;width:100%;box-sizing:border-box;float:left">
+            <h3>Rule execution results</h3>
+            <table class="data" >
+                <thead>
+                <tr class="headings">
+                    <th style="width:80px">ID</th>
+                    <th>Name</th>
+                    <th>From Group</th>
+                    <th>To Group</th>
+                    <th style="width:150px;">Date / Time</th>
+                </tr>
+                </thead>
+                <tbody id="results">
+                </tbody>
+            </table>
+        </div>
+    <?php } ?>
+</div>
+
+<?php if($totalCustomers) { ?>
+    <script type="text/javascript">
+        var processed = 0;
+        var totalCustomers = <?php echo $totalCustomers; ?>;
+        function executeBatch(offset){
+            var offset = offset;
+            new Ajax.Request("<?php echo $this->getUrl('*/*/applyRulesBulk'); ?>", {
+                method: 'POST',
+                parameters: {
+                    offset:offset,
+                    'ruleIds[]': <?php echo json_encode($this->getRuleIds()); ?>
+                },
+                onComplete: function(transport) {
+                    var result = transport.responseJSON;
+
+                    //if no results, stop
+                    if(result == "done"){
+                        console.log('done');
+                        return;
+                    }
+
+                    addRows(result);
+
+                    //update progress
+                    updateProgress(10);
+
+                    //execute next batch based on last customer ID
+                    var lastCustomerId = result[result.length - 1]['customer_id'];
+                    executeBatch(lastCustomerId);
+                }
+            });
+        }
+        function addRows(result)
+        {
+            $PC.each(result,function(k,v){
+                var html = '<tr>';
+                html += '<td>' + v.customer_id + '</td>';
+                html += '<td>' + v.customer_name + '</td>';
+                html += '<td>' + v.from_group + '</td>';
+                html += '<td>' + v.to_group + '</td>';
+                html += '<td>' + v.date + '</td>';
+                html += '</tr>';
+                $PC(html).prependTo('#results');
+            });
+        }
+        function updateProgress(count){
+            processed = processed + count;
+            if(processed > totalCustomers){
+                processed = totalCustomers;
+            }
+            var percent = ((processed / totalCustomers) * 100).toFixed(2);
+            $PC('#customers_processed').text(processed);
+            $PC('#percent').text(percent);
+        }
+
+        $PC(document).ready(function(){
+            executeBatch(0);
+        })
+    </script>
+<?php } ?>
+
